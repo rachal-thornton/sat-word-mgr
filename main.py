@@ -3,17 +3,29 @@
 # Date: 14 September 2026
 # Desc: This program manages a SAT word list in a GUI-based display.
 
-# Imports
+# IMPORTS
+import tkinter as tk
 import word
-# import gui
+import gui
 
-# Test Code
-words = word.load_words("words.dat")
-# Just the words
-for word in words:
-    print(word)
-# All word info
-for word, info in words.items():
-    print(f"Word: {word}")
-    print(f"Type: {info["word_type"]}")
-    print(f"Definition: {info["definition"]}")
+# Load words.dat
+word.load_words("words.dat")
+
+# Open the program window
+root = tk.Tk()
+root.title("SAT Word Program")
+
+# BUTTONS
+# TODO: Implement commands
+add_button = tk.Button(root, text="Add New Word", command=gui.add_word)
+check_button = tk.Button(root, text="Check Meaning", command=gui.check_meaning)
+save_button = tk.Button(root, text="Save Word List")
+quit_button = tk.Button(root, text="Quit", command=root.destroy)
+
+# Pack buttons
+add_button.pack(pady=5)
+check_button.pack(pady=5)
+save_button.pack(pady=5)
+quit_button.pack(pady=5)
+
+root.mainloop()

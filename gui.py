@@ -1,85 +1,111 @@
 # Author: Rachal Thornton
 # Class: CS 410
 # Date: 14 September 2026
-# Desc: This program contains the framework for a GUI for the SAT Word Program using Tkinter.
+# Desc: This program contains the functions needed in a GUI for the SAT Word Program using Tkinter.
 
-# Imports
+# IMPORTS
 import tkinter as tk
+import word
 
-# Constants
-BUTTON_WIDTH = 100
-BUTTON_HEIGHT = 3
-BUTTON_PADDING = 5
+# FUNCTIONS
+# add_word: Opens a new window for the user to imput information on a new word
+# Pre: none
+# Post: saves new word information to the words dictionary
+def add_word():
+    # Open new window
+    word_window = tk.Toplevel()
+    word_window.title("Add New Word")
 
-# Functions
-# Open a new window to handle the GUI for adding a new word to the list
-def open_addWord_window():
-    # Opening and setting up the new window
-    new_window = tk.Toplevel(root)
-    new_window.title("Add Word")
-
-    # Prompt for new word
-    word_prompt = tk.Label(new_window, text="New Word:")
-    word_prompt.grid(row=0, column=0)
-
-    # Entry to type new word
-    word_entry = tk.Entry(new_window)
+    # Prompt for word
+    tk.Label(word_window, text="Word: ").grid(row=0, column=0)
+    word_entry = tk.Entry(word_window)
     word_entry.grid(row=0, column=1)
 
     # Prompt for word type
-    type_prompt = tk.Label(new_window, text="Word Type:")
-    type_prompt.grid(row=1, column=0)
+    tk.Label(word_window, text="Word Type: ").grid(row=1, column=0)
+    # String variable to hold selected value
+    selected_type = tk.StringVar()
+    # Radio buttons
+    radio_noun = tk.Radiobutton(word_window, text="Noun", variable=selected_type, value="n")
+    radio_noun.grid(row=1, column=1)
+    radio_verb = tk.Radiobutton(word_window, text="Verb", variable=selected_type, value="v")
+    radio_verb.grid(row=1, column=2)
+    radio_adj = tk.Radiobutton(word_window, text="Adjective", variable=selected_type, value="a")
+    radio_adj.grid(row=1, column=3)
 
-    # Radiobutton to choose word type
-    type_choice = tk.IntVar()
-    verb_button = tk.Radiobutton(new_window, text="verb", variable=type_choice, value=1)
-    verb_button.grid(row=1, column=1)
-    noun_button = tk.Radiobutton(new_window, text="noun", variable=type_choice, value=2)
-    noun_button.grid(row=1, column=2)
-    adj_button = tk.Radiobutton(new_window, text="adjective", variable=type_choice, value=3)
-    adj_button.grid(row=1, column=3)
+    # Prompt for definition
+    tk.Label(word_window, text="Definition: ").grid(row=2, column=0)
+    definition_entry = tk.Text(word_window, height=5, width=40)
+    definition_entry.grid(row=2, column=1)
 
-    # Prompt for definition of word
-    def_prompt = tk.Label(new_window, text="Word Definition:")
-    def_prompt.grid(row=2, column=0)
+    # submit: gets the information the user added to the GUI
+    # Pre: all entries are filled out
+    # Post: adds the word to the words dictionary
+    def submit():
+        # Get information user entered
+        user_word = word_entry.get().strip().lower()
+        word_type = selected_type.get()
+        definition = definition_entry.get("1.0", tk.END).strip()
 
-    # Text field to type definition of word
-    def_text = tk.Text(new_window, height=5, width=50, wrap="word")
-    def_text.grid(row=2, column=1)
+        # Add word info to word dictionary
+        word.words[user_word] = {
+        "word_type": word_type,
+        "definition": definition
+    }
+        # Close window after submitting
+        word_window.destroy()
 
-# Open a new window to handle the GUI for checking meaning of word
-def open_checkMeaning_window():
-    # Opening and setting up the new window
-    new_window = tk.Toplevel(root)
-    new_window.title("Check Meaning")
+    # Submit button
+    submit_button = tk.Button(word_window, text="Submit", command=submit)
+    submit_button.grid(row=3, column=0)
 
+# check_meaning:
+# Pre:
+# Post:
+def check_meaning():
+    # Open new window
+    search_window = tk.Toplevel()
+    search_window.title("Check Meaning")
 
-# Create application window and name it
-root = tk.Tk()
-root.title("SAT Word Program")
+    # Search for word
+    tk.Label(search_window, text="Type in a word to search for: ").pack()
+    search_entry = tk.Entry(search_window)
+    search_entry.pack()
 
-# Widgets
-# Program name
-label = tk.Label(root, text="SAT Word Program")
-label.pack()
+    # search: 
+    # Pre: User typed word in search bar
+    # Post: Display word info or error
+    def search():
+        user_word = search_entry.get().strip().lower()
 
-# Buttons
-# Add word button opens new window to add a new word
-addWord = tk.Button(root, text="Add Word", width=BUTTON_WIDTH, height=BUTTON_HEIGHT, command=open_addWord_window)
+        # Check if user-searched word is in word dictionary
+        if user_word in word.words:
+            entry = word.words[user_word]
+            # Clear display
+            display.delete("1.0", tk.END)
+            # Insert all parts of the word
+            display.insert(
+                tk.END, 
+                f"Word: {user_word}\n"
+                )
+            display.insert(
+                tk.END,
+                f"Word Type: {entry['word_type']}\n"
+            )
+            display.insert(
+                tk.END,
+                f"Definition: {entry['definition']}\n"
+            )
+        else:
+            display.delete("1.0", tk.END)
+            display.insert(
+                tk.END,
+                f"'{user_word}' was not found in the word list."
+            )
 
-# Check meaning button opens a new window to see all words, or search for a specific word
-checkMeaning = tk.Button(root, text="Check Meaning", width=BUTTON_WIDTH, height=BUTTON_HEIGHT, command=open_checkMeaning_window)
-# Safe words button to save the word list into the words.dat file
-saveWords = tk.Button(root, text="Save Word List", width=BUTTON_WIDTH, height=BUTTON_HEIGHT)
-# Quit button to close program
-quit = tk.Button(root, text="Quit", width=BUTTON_WIDTH, height=BUTTON_HEIGHT, command=root.destroy)
+    search_button = tk.Button(search_window, text="Search", command=search)
+    search_button.pack()
 
-# Pack buttons vertically 
-addWord.pack(pady=BUTTON_PADDING)
-checkMeaning.pack(pady=BUTTON_PADDING)
-saveWords.pack(pady=BUTTON_PADDING)
-quit.pack(pady=BUTTON_PADDING)
+    display = tk.Text(search_window, height=10, width=50)
+    display.pack()
 
-
-# Start event loop and keep window responsive
-root.mainloop()
