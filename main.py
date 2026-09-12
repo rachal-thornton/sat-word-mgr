@@ -4,11 +4,16 @@
 # Desc: This program manages a SAT word list in a GUI-based display.
 
 # Imports
-import word_class
-import gui
+import word
+# import gui
 
 # Test Code
-word1 = word_class.Word("test", "an example", word_class.WordType.NOUN)
-print(word1.__repr__())
-word2 = word_class.Word("test", "an example", word_class.WordType.VERB)
-print(word2.__repr__())
+words = word.load_words("words.dat")
+# Just the words
+for word in words:
+    print(word)
+# All word info
+for word, info in words.items():
+    print(f"Word: {word}")
+    print(f"Type: {info["word_type"]}")
+    print(f"Definition: {info["definition"]}")
