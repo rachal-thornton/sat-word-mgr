@@ -5,6 +5,7 @@
 
 # IMPORTS
 import tkinter as tk
+from tkinter import messagebox
 import word
 
 # FUNCTIONS
@@ -47,7 +48,17 @@ def add_word():
         word_type = selected_type.get()
         definition = definition_entry.get("1.0", tk.END).strip()
 
-        # Add word info to word dictionary
+        # Validate thay user filled in all entries
+        if not user_word or not word_type or not definition:
+            messagebox.showwarning("Input Error", "Please fill in all fields.")
+            return
+
+        # Check that the word does not already exist in the 'words' dictionary
+        if user_word in word.words:
+            messagebox.showwarning("Duplicate Error", f"The word '{user_word}' already exists in the dictionary.")
+            return
+        
+        # Add word info to the 'words' dictionary
         word.words[user_word] = {
         "word_type": word_type,
         "definition": definition
@@ -79,7 +90,12 @@ def check_meaning():
         # Get user-searched word
         user_word = search_entry.get().strip().lower()
 
-        # Check if user-searched word is in word dictionary
+        # Validate user typed in a word to search
+        if not user_word:
+            messagebox.showwarning("Input Error", "Please type in a word before searching.")
+            return
+
+        # Check if user-searched word is in the 'words' dictionary
         # If it is, display it
         if user_word in word.words:
             entry = word.words[user_word]
