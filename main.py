@@ -9,17 +9,16 @@ import word
 import gui
 
 # Load words.dat
-word.load_words("words.dat")
+word.load_words()
 
 # Open the program window
 root = tk.Tk()
 root.title("SAT Word Program")
 
 # BUTTONS
-# TODO: Implement commands
 add_button = tk.Button(root, text="Add New Word", command=gui.add_word)
 check_button = tk.Button(root, text="Check Meaning", command=gui.check_meaning)
-save_button = tk.Button(root, text="Save Word List")
+save_button = tk.Button(root, text="Save Word List", command=word.save_words)
 quit_button = tk.Button(root, text="Quit", command=root.destroy)
 
 # Pack buttons

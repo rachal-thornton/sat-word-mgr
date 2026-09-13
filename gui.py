@@ -8,9 +8,9 @@ import tkinter as tk
 import word
 
 # FUNCTIONS
-# add_word: Opens a new window for the user to imput information on a new word
-# Pre: none
-# Post: saves new word information to the words dictionary
+# add_word: Opens a new window that allows the user to add a new word
+# Pre: 'words' dictionary exists
+# Post: saves new word information to the 'words' dictionary
 def add_word():
     # Open new window
     word_window = tk.Toplevel()
@@ -38,9 +38,9 @@ def add_word():
     definition_entry = tk.Text(word_window, height=5, width=40)
     definition_entry.grid(row=2, column=1)
 
-    # submit: gets the information the user added to the GUI
+    # submit: Gets the information the user entered on GUI
     # Pre: all entries are filled out
-    # Post: adds the word to the words dictionary
+    # Post: adds new word to the 'words' dictionary
     def submit():
         # Get information user entered
         user_word = word_entry.get().strip().lower()
@@ -59,9 +59,9 @@ def add_word():
     submit_button = tk.Button(word_window, text="Submit", command=submit)
     submit_button.grid(row=3, column=0)
 
-# check_meaning:
-# Pre:
-# Post:
+# check_meaning: Opens a new window that allows user to search for a word
+# Pre: 'words' dictionary exists
+# Post: returns a word and its information from the 'words' dictionary
 def check_meaning():
     # Open new window
     search_window = tk.Toplevel()
@@ -72,13 +72,15 @@ def check_meaning():
     search_entry = tk.Entry(search_window)
     search_entry.pack()
 
-    # search: 
-    # Pre: User typed word in search bar
-    # Post: Display word info or error
+    # search: Takes the word typed into the search entry and returns information about that word
+    # Pre: user typed word in search bar
+    # Post: display word info
     def search():
+        # Get user-searched word
         user_word = search_entry.get().strip().lower()
 
         # Check if user-searched word is in word dictionary
+        # If it is, display it
         if user_word in word.words:
             entry = word.words[user_word]
             # Clear display
@@ -96,7 +98,10 @@ def check_meaning():
                 tk.END,
                 f"Definition: {entry['definition']}\n"
             )
+
+        # If it isn't, display error message
         else:
+            # Clear display
             display.delete("1.0", tk.END)
             display.insert(
                 tk.END,
@@ -106,6 +111,8 @@ def check_meaning():
     search_button = tk.Button(search_window, text="Search", command=search)
     search_button.pack()
 
+    # Set up display
     display = tk.Text(search_window, height=10, width=50)
     display.pack()
+
 
