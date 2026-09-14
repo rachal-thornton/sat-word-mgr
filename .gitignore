@@ -1,0 +1,20 @@
+# === Python Cache ===
+# Automatically generated
+__pycache__/
+*.py[cod]
+*$py.class
+
+# === IDEs and Editors ===
+# Hides local code editor preferences
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+
+# === OS Specific ===
+# System configuration files created by computer's file finder
+.DS_Store
+Thumbs.db
+
+
