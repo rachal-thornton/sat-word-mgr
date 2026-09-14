@@ -6,7 +6,7 @@
 # IMPORTS
 import tkinter as tk
 from tkinter import messagebox
-import word
+import src.word as word
 
 # FUNCTIONS
 # add_word: Opens a new window that allows the user to add a new word

@@ -5,8 +5,8 @@
 
 # IMPORTS
 import tkinter as tk
-import word
-import gui
+import src.word as word
+import src.gui as gui
 
 def main():
     # Load words.dat
