@@ -26,13 +26,18 @@ def add_word():
     tk.Label(word_window, text="Word Type: ").grid(row=1, column=0)
     # String variable to hold selected value
     selected_type = tk.StringVar()
+
+    # Frame to hold radio buttons
+    radio_frame = tk.Frame(word_window)
+    radio_frame.grid(row=1, column=1)
+
     # Radio buttons
-    radio_noun = tk.Radiobutton(word_window, text="Noun", variable=selected_type, value="n")
-    radio_noun.grid(row=1, column=1)
-    radio_verb = tk.Radiobutton(word_window, text="Verb", variable=selected_type, value="v")
-    radio_verb.grid(row=1, column=2)
-    radio_adj = tk.Radiobutton(word_window, text="Adjective", variable=selected_type, value="a")
-    radio_adj.grid(row=1, column=3)
+    radio_noun = tk.Radiobutton(radio_frame, text="Noun", variable=selected_type, value="n")
+    radio_noun.grid(row=0, column=0, padx=10)
+    radio_verb = tk.Radiobutton(radio_frame, text="Verb", variable=selected_type, value="v")
+    radio_verb.grid(row=0, column=1, padx=10)
+    radio_adj = tk.Radiobutton(radio_frame, text="Adjective", variable=selected_type, value="a")
+    radio_adj.grid(row=0, column=2, padx=10)
 
     # Prompt for definition
     tk.Label(word_window, text="Definition: ").grid(row=2, column=0)

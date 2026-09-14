@@ -13,7 +13,9 @@ word.load_words()
 
 # Open the program window
 root = tk.Tk()
-root.title("SAT Word Program")
+root.title("SAT Word Manager")
+sat_label = tk.Label(root, text="SAT Word Manager", font=("Arial", 24, "bold"))
+sat_label.pack(pady=2)
 
 # BUTTONS
 add_button = tk.Button(root, text="Add New Word", command=gui.add_word)
